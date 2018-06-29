@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/smartraysam/smartraysam.github.io.git"
+    "url": "git+https://github.com/smartraysam/currencyconverter.git"
   },
   "keywords": [
     "currencyconverter"
@@ -26,7 +26,7 @@
   "author": "smartraysam",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/smartraysam/smartraysam.github.io/issues"
+    "url": "https://github.com/smartraysam/currencyconverter/issues"
   },
-  "homepage": "https://github.com/smartraysam/smartraysam.github.io#readme"
+  "homepage": "https://github.com/smartraysam/currencyconverter#readme"
 }
