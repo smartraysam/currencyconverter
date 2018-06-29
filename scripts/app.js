@@ -1,72 +1,59 @@
 (function () {
     'use strict';
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').then(function (reg) {
+            console.log('Service Worker Registered');
+            if (!navigator.serviceWorker.controller) {
+                return;
+            }
 
+            if (reg.waiting) {
+                app.updateReady(reg.waiting);
+                console.log('waiting');
+                return;
+            }
+
+            if (reg.installing) {
+                app.trackInstalling(reg.installing);
+                console.log('installing');
+                return;
+            }
+            reg.addEventListener('updatefound', function () {
+                app.trackInstalling(reg.installing);
+            });
+        });
+    }
     var app = {
         isLoading: true,
         container: document.querySelector('.main')
     };
 
-    // export default function app (container) {
-    //     this._container = container;
-    //     this._dbPromise = openDatabase();
-    //     this._registerServiceWorker();
-    //     var app= this;
-    //     isLoading: true,
-    //     document.querySelector('.main')
-    //   }
-      
-    //   app.prototype._registerServiceWorker = function() {
-    //     if (!navigator.serviceWorker) return;
-      
-    //     var app= this;
-      
-    //     navigator.serviceWorker.register('/sw.js').then(function(reg) {
-    //         console.log('Service Worker Registered');
-    //       if (!navigator.serviceWorker.controller) {
-    //         return;
-    //       }
-      
-    //       if (reg.waiting) {
-    //         app._updateReady(reg.waiting);
-    //         return;
-    //       }
-      
-    //       if (reg.installing) {
-    //         app._trackInstalling(reg.installing);
-    //         return;
-    //       }
-      
-    //       reg.addEventListener('updatefound', function() {
-    //         app._trackInstalling(reg.installing);
-    //       });
-    //     });
-    //     var refreshing;
-    //     navigator.serviceWorker.addEventListener('controllerchange', function() {
-    //       if (refreshing) return;
-    //       window.location.reload();
-    //       refreshing = true;
-    //     });
-    //   };
-      
-    //  app.prototype._trackInstalling = function(worker) {
-    //     var app = this;
-    //     worker.addEventListener('statechange', function() {
-    //       if (worker.state == 'installed') {
-    //         app._updateReady(worker);
-    //       }
-    //     });
-    //   };
-      
-    //   app.prototype._updateReady = function(worker) {
-    //     var toast = this._toastsView.show("New version available", {
-    //       buttons: ['refresh', 'dismiss']
-    //     });
-      
-    //     toast.answer.then(function(answer) {
-    //       if (answer != 'refresh') return;
-    //       worker.postMessage({action: 'skipWaiting'});
-    //     });
-    //   };
+    var refreshing;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (refreshing) {
+            return;
+        }
+        window.location.reload();
+        refreshing = true;
+    });
+    app.trackInstalling = function (worker) {
+        worker.addEventListener('statechange', function () {
+            if (worker.state === 'installed') {
+                app.updateReady(worker);
+            }
+        });
+    };
+    app.updateReady = function (worker) {
+        var toast = this._toastsView.show('New version available', { buttons: ['refresh', 'dismiss']}
+        );
+        toast.answer.then(function (answer) {
+            if (answer !== 'refresh') {
+                return;
+            }
+            worker.postMessage({action: 'skipWaiting'});
+        });
+
+    };
     window.onload = ()=> {
         app.getCurrencies();
     };
@@ -171,12 +158,4 @@
                 console.log('parsing failed', ex);
             });
     };
-
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-            .register('/sw.js')
-            .then(function () {
-                console.log('Service Worker Registered');
-            });
-    }
 })();
