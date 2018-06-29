@@ -15,18 +15,5 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/smartraysam/currencyconverter.git"
-  },
-  "keywords": [
-    "currencyconverter"
-  ],
-  "author": "smartraysam",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/smartraysam/currencyconverter/issues"
-  },
-  "homepage": "https://github.com/smartraysam/currencyconverter#readme"
+  }
 }
