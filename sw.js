@@ -37,7 +37,7 @@ self.addEventListener('fetch', function (e) {
     console.log('[Service Worker] Fetch', e.request.url);
     const baseURL = 'https://free.currencyconverterapi.com/api/v5';
     const dataUrlcurrency = '/currencies';
-    const dataUrlconverter = '/convert?q=';
+    // const dataUrlconverter = '/convert?q=';
     if (e.request.url.indexOf(baseURL) > -1) {
         if (e.request.url.indexOf(dataUrlcurrency) > -1) {
             e.respondWith(
@@ -50,17 +50,17 @@ self.addEventListener('fetch', function (e) {
             );
             return;
         }
-        if (e.request.url.indexOf(dataUrlconverter) > -1) {
-            e.respondWith(
-                caches.open(convertCacheName).then(function (cache) {
-                    return fetch(e.request).then(function (response) {
-                        cache.put(e.request.url, response.clone());
-                        return response;
-                    });
-                })
-            );
-            return;
-        }
+        // if (e.request.url.indexOf(dataUrlconverter) > -1) {
+        //     e.respondWith(
+        //         caches.open(convertCacheName).then(function (cache) {
+        //             return fetch(e.request).then(function (response) {
+        //                 cache.put(e.request.url, response.clone());
+        //                 return response;
+        //             });
+        //         })
+        //     );
+        //     return;
+        // }
     }
     e.respondWith(
         caches.match(e.request).then(function (response) {

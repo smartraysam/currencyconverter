@@ -26,22 +26,26 @@
 
     <main class="main">
       <div class="card">
-        <p>
-          <input type="text" id="amount" value="1">
-          <select id="from">
-            <option value="">-- Select --</option>
-          </select>
-          <p>To</p>
-          <select id="to">
-            <option value="">-- Select --</option>
-          </select>
-        </p>
-        <p>
-          <button id="convert" type="button">Convert</button>
-        </p>
-        <div>
-            <input type="text" id="outputAmt" disabled placeholder="" />
+        <div class="container">
+            <p>
+                <input  type="text" id="amount" placeholder=" Enter the Amount">
+                </p>  
+                <select id="from">
+                  <option value="">-- Select --</option>
+                </select>
+                <p>To</p>
+                <select id="to">
+                  <option value="">-- Select --</option>
+                </select>
+              </p>
+              <p>
+                <button id="convert" type="button">Convert</button>
+              </p>
+              <p>
+               <input  type="text" id="outputAmt" disabled placeholder="" value="0.00"/>
+              </p>
         </div>
+        
 
       </div>
     </main>
