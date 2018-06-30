@@ -1,6 +1,5 @@
 const currencyCacheName = 'currency';
-const convertCacheName = 'converter';
-const cacheName = 'currencyConverter';
+const cacheName = 'currencyConverter-static';
 const filesToCache = [
     '/',
     '/index.html',
@@ -23,7 +22,7 @@ self.addEventListener('activate', function (e) {
     e.waitUntil(
         caches.keys().then(function (keyList) {
             return Promise.all(keyList.map(function (key) {
-                if (key !== cacheName && key !== currencyCacheName && key !== convertCacheName) {
+                if (key !== cacheName && key !== currencyCacheName) {
                     console.log('[ServiceWorker] Removing old cache', key);
                     return caches.delete(key);
                 }
@@ -35,32 +34,18 @@ self.addEventListener('activate', function (e) {
 
 self.addEventListener('fetch', function (e) {
     console.log('[Service Worker] Fetch', e.request.url);
-    const baseURL = 'https://free.currencyconverterapi.com/api/v5';
-    const dataUrlcurrency = '/currencies';
-    // const dataUrlconverter = '/convert?q=';
+    const baseURL = 'https://free.currencyconverterapi.com/api/v5/currencies';
     if (e.request.url.indexOf(baseURL) > -1) {
-        if (e.request.url.indexOf(dataUrlcurrency) > -1) {
-            e.respondWith(
-                caches.open(currencyCacheName).then(function (cache) {
-                    return fetch(e.request).then(function (response) {
-                        cache.put(e.request.url, response.clone());
-                        return response;
-                    });
-                })
-            );
-            return;
-        }
-        // if (e.request.url.indexOf(dataUrlconverter) > -1) {
-        //     e.respondWith(
-        //         caches.open(convertCacheName).then(function (cache) {
-        //             return fetch(e.request).then(function (response) {
-        //                 cache.put(e.request.url, response.clone());
-        //                 return response;
-        //             });
-        //         })
-        //     );
-        //     return;
-        // }
+        e.respondWith(
+            caches.open(currencyCacheName).then(function (cache) {
+                return fetch(e.request).then(function (response) {
+                    cache.put(e.request.url, response.clone());
+                    return response;
+                });
+            })
+        );
+        return;
+
     }
     e.respondWith(
         caches.match(e.request).then(function (response) {
