@@ -8,10 +8,7 @@
             }
         });
     }
-    var app = {
-        isLoading: true,
-        container: document.querySelector('.main')
-    };
+    var app = {container: document.querySelector('.main')};
 
     window.onload = () => {
         app.getCurrencies();
@@ -63,44 +60,57 @@
         app.convertCurrency();
     });
     let db;
-    let index;
-    app.openDatabase = () => {
+    let checkCount = false;
+    app.openDatabase = (query, amt) => {
         // If the browser doesn't support service worker,
         // we don't care about having a database
         if (!navigator.serviceWorker) {
             return Promise.resolve();
         }
         var request = self.indexedDB.open('currency', 1);
-        request.onsuccess = function (event) {
-            console.log('[onsuccess]', request.result);
-            db = event.target.result; // === request.result
-        };
         request.onupgradeneeded = (event) => {
             db = event.target.result;
             var store = db.createObjectStore('currencies', { keyPath: 'id' });
             store.createIndex('rate', 'id', { unique: true });
         };
+        request.onsuccess = function (event) {
+            db = event.target.result; // === request.result
+            console.log('[onsuccess]', request.result);
+            app.checkDB(query, amt);
+        };
     };
 
     app.storeData = (data) => {
         // If the browser doesn't support service worker,
-        index = db.transaction('currencies', 'readwrite').objectStore('currencies');
-        index.put(data);
-        index.onsuccess = () => {
+        let transactStore = db.transaction('currencies', 'readwrite').objectStore('currencies');
+        transactStore.put(data);
+        transactStore.onsuccess = () => {
             console.log('[Transaction] ALL DONE!');
         };
     };
     app.getData = (query, amt) => {
-        let indexx = db.transaction('currencies').objectStore('currencies');
-        let json = indexx.get(query);
+        let transactGet = db.transaction('currencies').objectStore('currencies');
+        let json = transactGet.get(query);
         json.onsuccess = () => {
             let val = json.result.rate;
-            console.log(val);
+            console.log('get data', val);
             if (val) {
                 let total = val * amt;
                 document.getElementById('outputAmt').value = Math.round(total * 100) / 100;
             }
             console.log('[Transaction] ALL DONE!');
+        };
+    };
+    app.checkDB = (query, amt) => {
+        let transactCheck = db.transaction('currencies').objectStore('currencies');
+        let countRequest = transactCheck.count();
+        countRequest.onsuccess = () => {
+            console.log(countRequest.result);
+            if (countRequest.result !== 0) {
+                checkCount = true;
+                console.log(checkCount);
+                app.getData(query, amt);
+            }
         };
     };
 
@@ -112,8 +122,7 @@
         const url = `https://free.currencyconverterapi.com/api/v5/convert?q=${query}`;
         //let isFetchDB = false;
         console.log(url);
-        app.openDatabase();
-
+        app.openDatabase(query, amt);
         fetch(url)
             .then(response => {
                 let results = response.json();
@@ -128,14 +137,15 @@
                     id: query,
                     rate: val
                 });
-                if (val) {
-                    let total = val * amt;
-                    document.getElementById('outputAmt').value = Math.round(total * 100) / 100;
+                if (checkCount === false) {
+                    if (val) {
+                        let total = val * amt;
+                        document.getElementById('outputAmt').value = Math.round(total * 100) / 100;
+                    }
                 }
-
             })
             .catch(ex => {
-                app.getData(query, amt);
+                //app.getData(query, amt);
                 console.log('parsing erro', ex);
             });
     };
