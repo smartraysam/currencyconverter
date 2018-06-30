@@ -20,7 +20,7 @@
             app.snack('Internet is available');
         } else {
             console.log('You are offline');
-            app.snack('You are offline');
+            app.snack('You are offline currency convertion is not real time!!!');
 
         }
     };

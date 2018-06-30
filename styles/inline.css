@@ -197,8 +197,12 @@ button {
 
 .container {
   margin: 0 auto;
-  border-style: solid blue;
+  background-color: #3f51b5;
+  color: white;
+  width: 30%;
+  padding: 20px;
 }
+
 .card .output {
   margin: 0 auto;
   border-color: gray;
@@ -208,10 +212,10 @@ button {
 }
 button,
 input {
-  width: 20%;
+  width: 90%;
 }
 .select {
-  width: 20%;
+  width: 90%;
   margin: 0 auto;
 }
 .fromlabel,
@@ -234,10 +238,14 @@ select {
 }
 
 @media screen and (max-width: 650px) {
-  button,
-  input,
-  .select {
-    width: 50%;
+  .container {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .container {
+   font-size: smaller
   }
 }
 
@@ -264,21 +272,45 @@ select {
 }
 
 @-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;} 
-  to {bottom: 0; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
