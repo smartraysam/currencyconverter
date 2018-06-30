@@ -249,6 +249,18 @@ select {
   }
 }
 
+@media screen and (max-width: 400px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+   font-size: small
+  }
+}
+
 #snackbar {
   visibility: hidden;
   min-width: 250px;
