@@ -132,11 +132,11 @@
                 console.log('parsed json', json);
                 console.log(query);
                 let val = json.results[query].val;
-                console.log(val);
                 app.storeData({
                     id: query,
                     rate: val
                 });
+                console.log(checkCount);
                 if (checkCount === false) {
                     if (val) {
                         let total = val * amt;
