@@ -1,5 +1,10 @@
 (function () {
     'use strict';
+
+    var app = {container: document.querySelector('.main')};
+    window.onload = () => {
+        app.getCurrencies();
+    };
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').then(function () {
             console.log('Service Worker Registered');
@@ -8,11 +13,25 @@
             }
         });
     }
-    var app = {container: document.querySelector('.main')};
+    app.userConnection = () => {
+        if (navigator.onLine) {
+            console.log('Internet is available');
+            app.snack('Internet is available');
+        } else {
+            console.log('You are offline');
+            app.snack('You are offline');
 
-    window.onload = () => {
-        app.getCurrencies();
+        }
     };
+    app.snack = (text) => {
+        // var x = document.getElementById("snackbar");
+        let x = document.getElementById('snackbar').innerHTML = text;
+        x.className = 'show';
+        setTimeout(() => {
+            x.className = x.className.replace('show', '');
+        }, 3000);
+    };
+
     app.getCurrencies = () => {
         var url = 'https://free.currencyconverterapi.com/api/v5/currencies';
         //TODO add cache logic here

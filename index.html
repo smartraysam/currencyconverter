@@ -17,8 +17,6 @@
     <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
     <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
     <meta name="msapplication-TileColor" content="#2F3BA2">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
   </head>
 
   <body>
@@ -29,23 +27,31 @@
     <main class="main">
       <div class="card">
         <div class="container">
-            <p>
-                <input  type="text" id="amount" placeholder=" Enter the Amount">
-                </p>  
-                <select id="from">
-                  <option value="">-- Select --</option>
-                </select>
-                <p>To</p>
-                <select id="to">
-                  <option value="">-- Select --</option>
-                </select>
-              </p>
-              <p>
+                <div>
+                <input  type="number" id="amount" placeholder=" Enter the Amount">
+                </div>
+                <br>
+                <div class="select"> 
+                    <div class="fromlabel">From:</div>
+                    <select id="from">
+                      <option value="">-- Select --</option>
+                    </select>
+                  <br>
+                  <br>
+                     <div class="tolabel">To:</div>
+                    <select id="to">
+                      <option value="">-- Select --</option>
+                    </select>
+                </div>
+                <br>
+              <div>
                 <button id="convert" type="button">Convert</button>
-              </p>
-              <p>
+              </div>
+              <br>
+              <div>
                <input  type="text" id="outputAmt" disabled placeholder="" value="0.00"/>
-              </p>
+              </div>
+              <div id="snackbar"></div>
         </div>
         
 
