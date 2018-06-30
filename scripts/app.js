@@ -3,6 +3,7 @@
 
     var app = {container: document.querySelector('.main')};
     window.onload = () => {
+        app.userConnection();
         app.getCurrencies();
     };
     if ('serviceWorker' in navigator) {
@@ -25,8 +26,9 @@
     };
     app.snack = (text) => {
         // var x = document.getElementById("snackbar");
-        let x = document.getElementById('snackbar').innerHTML = text;
+        let x = document.getElementById('snackbar');
         x.className = 'show';
+        x.innerHTML = text;
         setTimeout(() => {
             x.className = x.className.replace('show', '');
         }, 3000);
@@ -76,6 +78,7 @@
     };
     document.getElementById('convert').addEventListener('click', function () {
         //get api to convert currency
+        app.userConnection();
         app.convertCurrency();
     });
     let db;
