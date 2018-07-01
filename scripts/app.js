@@ -122,6 +122,7 @@
                     document.getElementById('outputAmt').value = Math.round(total * 100) / 100;
                 }
             } catch (ex) {
+                checkCount = false;
                 document.getElementById('outputAmt').value = 0;
                 console.log('parsing erro', ex);
             }
@@ -177,3 +178,4 @@
             });
     };
 }());
+
