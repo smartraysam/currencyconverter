@@ -236,6 +236,11 @@ input {
 select {
   width: 80%;
 }
+#outputAmt{
+  color: black;
+  font-size: xx-large;
+  text-align: right;
+}
 
 @media screen and (max-width: 650px) {
   .container {
