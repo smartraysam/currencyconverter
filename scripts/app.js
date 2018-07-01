@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var app = {container: document.querySelector('.main')};
+    var app = { container: document.querySelector('.main') };
     window.onload = () => {
         app.userConnection();
         app.getCurrencies();
@@ -114,11 +114,16 @@
         let transactGet = db.transaction('currencies').objectStore('currencies');
         let json = transactGet.get(query);
         json.onsuccess = () => {
-            let val = json.result.rate;
-            console.log('get data', val);
-            if (val) {
-                let total = val * amt;
-                document.getElementById('outputAmt').value = Math.round(total * 100) / 100;
+            try {
+                let val = json.result.rate;
+                console.log('get data', val);
+                if (val) {
+                    let total = val * amt;
+                    document.getElementById('outputAmt').value = Math.round(total * 100) / 100;
+                }
+            } catch (ex) {
+                document.getElementById('outputAmt').value = 0;
+                console.log('parsing erro', ex);
             }
             console.log('[Transaction] ALL DONE!');
         };
